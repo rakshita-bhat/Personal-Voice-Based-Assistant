@@ -16,11 +16,12 @@ This project is a mini voice-controlled personal assistant built using Python. I
 
 
 🛠️ Technologies Used:
+
 Python
 
 speech_recognition – for processing voice input
 
-pyttsx3 / gTTS – for speech output
+pyttsx3  – for speech output
 
 pywhatkit – for WhatsApp messaging and calls
 
