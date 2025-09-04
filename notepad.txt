@@ -1,0 +1,174 @@
+1.multi threading and creating two threads program:
+
+Multithreading is a programming concept that allows multiple threads to execute concurrently within a single process. A thread is the smallest unit of execution within a process, and multithreading enables efficient resource sharing, parallel execution, and improved application performance.
+
+Below is a Python program that demonstrates how to create and execute two threads:
+
+Code:
+python
+Copy
+Edit
+import threading
+import time
+
+# Function for the first thread
+def print_numbers():
+    for i in range(1, 6):
+        print(f"Thread 1 - Number: {i}")
+        time.sleep(1)  # Simulate some delay
+
+# Function for the second thread
+def print_letters():
+    for letter in "ABCDE":
+        print(f"Thread 2 - Letter: {letter}")
+        time.sleep(1.5)  # Simulate some delay
+
+# Main function
+def main():
+    # Create threads
+    thread1 = threading.Thread(target=print_numbers)
+    thread2 = threading.Thread(target=print_letters)
+
+    # Start threads
+    thread1.start()
+    thread2.start()
+
+    # Wait for threads to complete
+    thread1.join()
+    thread2.join()
+
+    print("Both threads have finished execution.")
+
+# Run the program
+if name == "main":
+    main()
+
+
+2.different methods defined in thread class:
+The methods provided by the Thread class are as follows:
+ run(): The run() method is the entry point for a thread.
+ start(): The start() method starts a thread by calling the run method.
+ join([time]): The join() waits for threads to terminate.
+ isAlive(): The isAlive() method checks whether a thread is still executing.
+ getName(): The getName() method returns the name of a thread.
+ setName(): The setName() method sets the name of a thread
+
+
+
+3.client and server program:
+
+import socket
+
+def start_server():
+    # Create a socket object
+    server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+    # Bind the socket to a public host and port
+    server_host = '127.0.0.1'  # Localhost
+    server_port = 12345        # Arbitrary port
+    server_socket.bind((server_host, server_port))
+
+    # Start listening for connections
+    server_socket.listen(5)  # Allow up to 5 clients to connect
+    print(f"Server listening on {server_host}:{server_port}")
+
+    while True:
+        # Accept a client connection
+        client_socket, client_address = server_socket.accept()
+        print(f"Connection established with {client_address}")
+
+        # Receive data from the client
+        client_message = client_socket.recv(1024).decode('utf-8')
+        print(f"Received from client: {client_message}")
+
+        # Send a response back to the client
+        server_response = "Hello from the server!"
+        client_socket.send(server_response.encode('utf-8'))
+
+        # Close the connection
+        client_socket.close()
+
+# Run the server
+if _name_ == "_main_":
+    start_server()
+
+
+4.Illustrate with examples connect, insert, update, delete database operations in python.
+import sqlite3
+
+# Connect to the database (or create it)
+def connect_database():
+    connection = sqlite3.connect("example.db")  # Creates or opens a file named example.db
+    cursor = connection.cursor()
+    # Create a table (if it doesn't exist)
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS students (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            age INTEGER NOT NULL,
+            grade TEXT NOT NULL
+        )
+    ''')
+    connection.commit()
+    print("Database connected and table created.")
+    return connection
+
+# Insert data into the table
+def insert_data(connection, name, age, grade):
+    cursor = connection.cursor()
+    cursor.execute("INSERT INTO students (name, age, grade) VALUES (?, ?, ?)", (name, age, grade))
+    connection.commit()
+    print(f"Inserted: {name}, {age}, {grade}")
+
+# Update data in the table
+def update_data(connection, student_id, new_grade):
+    cursor = connection.cursor()
+    cursor.execute("UPDATE students SET grade = ? WHERE id = ?", (new_grade, student_id))
+    connection.commit()
+    print(f"Updated student ID {student_id} to grade {new_grade}")
+
+# Delete data from the table
+def delete_data(connection, student_id):
+    cursor = connection.cursor()
+    cursor.execute("DELETE FROM students WHERE id = ?", (student_id,))
+    connection.commit()
+    print(f"Deleted student with ID {student_id}")
+
+# Fetch and display data
+def display_data(connection):
+    cursor = connection.cursor()
+    cursor.execute("SELECT * FROM students")
+    rows = cursor.fetchall()
+    print("\nCurrent Students:")
+    for row in rows:
+        print(row)
+
+# Main function
+if _name_ == "_main_":
+    # Connect to the database
+    conn = connect_database()
+
+    # Insert data
+    insert_data(conn, "Alice", 20, "A")
+    insert_data(conn, "Bob", 22, "B")
+    insert_data(conn, "Charlie", 21, "C")
+
+    # Display current data
+    display_data(conn)
+
+    # Update a student's grade
+    update_data(conn, student_id=2, new_grade="A+")
+
+    # Display updated data
+    display_data(conn)
+
+    # Delete a student record
+    delete_data(conn, student_id=3)
+
+    # Display final data
+    display_data(conn)
+
+    # Close the connection
+    conn.close()
+    print("Database connection closed.")
+
